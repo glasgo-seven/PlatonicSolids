@@ -1,3 +1,5 @@
+# from vector import Vector
+
 class Matrix:
 	def __init__(self, _content : list[list[float]]) -> None:
 		self.content = _content
@@ -5,7 +7,7 @@ class Matrix:
 		self.n = len(_content[0])
 
 	def __add__(self, _add):
-		if type(_add) == int or type(_add) == float:
+		if type(_add) is int or type(_add) is float:
 			content = []
 			for line in self.content:
 				row = []
@@ -14,7 +16,7 @@ class Matrix:
 				content.append(row)
 			return Matrix(content)
 		
-		elif type(_add) == Matrix:
+		elif type(_add) is Matrix:
 			if self.m == _add.m and self.n == _add.n:
 				content = []
 				for m in range(self.m):
@@ -29,7 +31,7 @@ class Matrix:
 
 
 	def __mul__(self, _mul):
-		if type(_mul) == int or type(_mul) == float:
+		if type(_mul) is int or type(_mul) is float:
 			content = []
 			for line in self.content:
 				row = []
@@ -37,16 +39,24 @@ class Matrix:
 					row.append(cell * _mul)
 				content.append(row)
 			return Matrix(content)
+		# elif type(_mul) is Vector or type(_mul) is Matrix:
+		# 	if type(_mul) is Vector:
+		# 		_mul = _mul.to_matrix()
+		elif type(_mul) is Matrix:
+			content = []
+			for line_a in self.content:
+				row = []
+				for line_b in _mul.T().content:
+					def mul_vectors(v1, v2):
+						return v1[0] * v2[0] + v1[1] * v2[1] + v1[2] * v2[2]
+					row.append(mul_vectors(line_a, line_b))
+				content.append(row)
+			return Matrix(content)
 
-		elif type(_mul) == Matrix:
+		elif type(_mul) is Matrix:
 			if self.n == _mul.m:
 				_mult = _mul.T()
 				content = []
-				# for m in range(self.m):
-				# 	row = []
-				# 	x = 0
-				# 	for n in range(self.n):
-				# 		x += self.content[m][n] * _mul.content[n][m]
 				def mul_vector(v1, v2):
 					if len(v1) == len(v2):
 						mul = 0
@@ -71,8 +81,16 @@ class Matrix:
 		elif type(_sub) == Matrix:
 			return self.__add__(_sub.__mul__(-1))
 	
-	def __rsub__(self, _sub):
-		return self.__sub__(_sub)
+	# def __rsub__(self, _sub):
+	# 	return self.__sub__(_sub)
+
+
+	def __truediv__(self, _div):
+		return self.__mul__(1 / _div)
+	
+	def __rtruediv__(self, _div):
+		return self.__truediv__(_div)
+
 
 	def T(self):
 		content = [[0 for _ in range(self.m)] for _ in range(self.n)]
@@ -105,6 +123,7 @@ class Matrix:
 		
 		return 0
 
+
 	def to_vector(self):
 		if self.m == 1 and self.n == 3:
 			return self.content[0]
@@ -117,59 +136,37 @@ class Matrix:
 		return ret
 
 
-
-def add_n(_matrix : list[list], _n : float) -> list[list]:
-	for line in _matrix :
-		row = []
-		for cell in line :
-			row.append(cell + _n)
-		yield row
-
-def add_n1(_matrix : list[list], _n : float) -> list[list]:
-	new_matrix = []
-	for line in _matrix :
-		row = []
-		for cell in line :
-			row.append(cell + _n)
-		new_matrix.append(row)
-	return new_matrix
-
-def add_n2(_matrix : list[list], _n : float) -> list[list]:
-	for m in range(len(_matrix)) :
-		for n in range(len(_matrix[m])) :
-			_matrix[m][n] += _n
-	return _matrix
-
-def add(_matrix_A : list[list], _matrix_B : list[list]) -> list[list]:
-	pass
-
-
 if __name__ == '__main__':
-	matrix_A = [
+
+	matrix_A_a = [
 		[1, 2, 3],
 		[4, 5, 6]
 	]
-	matrix_B = [
-		[1, 2],
-		[3, 4],
-		[5, 6]
+	matrix_A_b = [
+		[4, 5, 6],
+		[1, 2, 3]
 	]
-	A = Matrix(matrix_A)
-	B = Matrix(matrix_B)
-	print(A)
-	print(B)
-	print(A * B)
+	matrix_B_a = [
+		[1, 4],
+		[2, 5],
+		[3, 6]
+	]
+	matrix_B_b = [
+		[4, 1],
+		[5, 2],
+		[6, 3]
+	]
 
-	# import timeit
+	Aa = Matrix(matrix_A_a)
+	Ab = Matrix(matrix_A_b)
+	Ba = Matrix(matrix_B_a)
+	Bb = Matrix(matrix_B_b)
 
-	# print()
-	# print([*add_n(matrix, 2)])
-	# print(timeit.timeit("add_n(matrix, 2)", number=10000))
+	# print(10 + Aa + 10)
+	# print(Aa + Ab)
+	# print(Ba - 100)
+	# print(Ba - Bb)
+	# print(10 * Aa * 10)
+	# print(Aa * Ba)
+	# print(Ba / 10)
 
-	# print()
-	# print(add_n1(matrix, 2))
-	# print(timeit.timeit("add_n1(matrix, 2)", number=10000))
-
-	# print()
-	# print(add_n2(matrix, 2))
-	# print(timeit.timeit("add_n2(matrix, 2)", number=10000))
