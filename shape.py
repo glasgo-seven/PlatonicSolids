@@ -15,11 +15,24 @@ class Vector:
 
 from math import cos, sin
 AXIS = {
-	'Z' :	lambda _angle : Matrix([
-								[cos(_angle),	-sin(_angle),	0],
-								[sin(_angle),	cos(_angle),	0],
-								[0,				0,				1]
-							])
+	'X' :	lambda _angle :
+		Matrix([
+			[1,	0, 				0],
+			[0,	cos(_angle),	-sin(_angle)],
+			[0,	sin(_angle),	cos(_angle)]
+		]),
+	'Y' :	lambda _angle :
+		Matrix([
+			[cos(_angle),	0,	sin(_angle)],
+			[0,				1,	0],
+			[sin(_angle),	0,	cos(_angle)]
+		]),
+	'Z' :	lambda _angle :
+		Matrix([
+			[cos(_angle),	-sin(_angle),	0],
+			[sin(_angle),	cos(_angle),	0],
+			[0,				0,				1]
+		])
 }
 
 class Triangle:
