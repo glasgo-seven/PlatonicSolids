@@ -1,34 +1,27 @@
 # from vector import *
-from matrix import *
+# from matrix import Matrix
+# from engine_3d import matrix
+# from engine_3d import vector
 
-class Vector:
-	def __init__(self, _x, _y, _z) -> None:
-		self.x = _x
-		self.y = _y
-		self.z = _z
-	
-	def to_tuple(self):
-		return (self.x, self.y, self.z)
-	
-	def to_list(self):
-		return [self.x, self.y, self.z]
+import matrix
+import vector
 
 from math import cos, sin
 AXIS = {
 	'X' :	lambda _angle :
-		Matrix([
+		matrix.Matrix([
 			[1,	0, 				0],
 			[0,	cos(_angle),	-sin(_angle)],
 			[0,	sin(_angle),	cos(_angle)]
 		]),
 	'Y' :	lambda _angle :
-		Matrix([
+		matrix.Matrix([
 			[cos(_angle),	0,	sin(_angle)],
 			[0,				1,	0],
 			[sin(_angle),	0,	cos(_angle)]
 		]),
 	'Z' :	lambda _angle :
-		Matrix([
+		matrix.Matrix([
 			[cos(_angle),	-sin(_angle),	0],
 			[sin(_angle),	cos(_angle),	0],
 			[0,				0,				1]
@@ -37,34 +30,39 @@ AXIS = {
 
 class Triangle:
 	def __init__(self, _position, _edge : float, _type : str = '') -> None:
-		self.position = Vector(*_position)
-		self.edge = _edge
-		self.m = (self.edge ** 2 * 3 / 4) ** (1/2)
+		self.position : vector.Vector = vector.Vector(*_position)
+		self.edge : float = _edge
+		self.m : float = (self.edge ** 2 * 3 / 4) ** (1/2)
 
-		self.vertices = [
-			Vector(self.position.x,
+		self.vertices : list[vector.Vector] = [
+			vector.Vector(self.position.x,
 					self.position.y,
 					self.position.z),
-			Vector(self.position.x + self.edge,
+			vector.Vector(self.position.x + self.edge,
 					self.position.y,
 					self.position.z),
-			Vector(self.position.x + self.edge / 2,
+			vector.Vector(self.position.x + self.edge / 2,
 					self.position.y + self.m,
 					self.position.z),
 		]
-		self.edges = [
+		self.edges : list[tuple[int]] = [
 			(0, 1),
 			(1, 2),
 			(2, 0)
 		]
-		self.surfaces = [
+		self.surfaces : list[tuple[int]] = [
 			(0, 1, 2)
 		]
 
 	def rotate(self, _angle, _axis = 'Z'):
 		for i in range(len(self.vertices)):
-			m = Matrix([self.vertices[i].to_list()]).T()
-			self.vertices[i] = Vector(*(m * AXIS[_axis](_angle)).to_vector())
+			vertex_matrix = matrix.Matrix(
+				self.vertices[i].to_matrix_content()
+			)
+			self.vertices[i] = vector.Vector(
+				(AXIS[_axis](_angle) * vertex_matrix).to_vector_content()
+			)
+		print('ROTATION DONE')
 
 
 

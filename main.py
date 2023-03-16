@@ -55,23 +55,24 @@ from OpenGL.GLU import *
 #     (1,3,7,5)
 #     )
 
+from matrix import Matrix
+from vector import Vector
 from shape import Triangle
 
-def Cube(shape):
-    glBegin(GL_QUADS)
-    x = 0
-    for surface in shape.surfaces:
-        for vertex in surface:
-            # glColor3fv((0,0,0))
-            glVertex3fv(shape.vertices[vertex].to_tuple())
-        x += 1
-    glEnd()
-
+def draw(shape : Triangle):
     glBegin(GL_LINES)
     for edge in shape.edges:
         for vertex in edge:
-            glVertex3fv(shape.vertices[vertex].to_tuple())
-    glEnd() 
+            glVertex3fv((0,0,0))
+            # glVertex3fv(shape.vertices[vertex].V)
+    glEnd()
+    
+    glBegin(GL_QUADS)
+    for surface in shape.surfaces:
+        for vertex in surface:
+            # glVertex3fv(shape.vertices[vertex].V)
+            glVertex3fv((0,0,0))
+    glEnd()
 
 def main():
     pygame.init()
@@ -89,7 +90,7 @@ def main():
         shape.rotate(30)
 
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
-        Cube(shape)
+        draw(shape)
         pygame.display.flip()
         pygame.time.wait(10)
 
