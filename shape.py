@@ -24,7 +24,8 @@ COLORS = {
 	'cian'		:	(0,1,1),
 	'red'		:	(1,0,0),
 	'purple'	:	(1,0,1),
-	'yellow'	:	(1,1,0),
+	# 'yellow'	:	(1,1,0),
+	'yellow'	:	(1,0.5,0),
 	'white'		:	(1,1,1)
 }
 
@@ -53,7 +54,7 @@ def load_axises(_position : tuple[float, float, float], _edge : float) -> tuple[
 		COLORS['green'],
 		COLORS['blue']
 	]
-	return (vertices, edges, surfaces, colors)
+	return (vertices, edges, surfaces, colors, gl_mode)
 
 def load_point(_position : tuple[float, float, float], _edge : float) -> tuple[list[Matrix], list[tuple[int]], list[tuple[int]], list[tuple[float, float, float]]]:
 	gl_mode = GL_POINTS
@@ -63,8 +64,7 @@ def load_point(_position : tuple[float, float, float], _edge : float) -> tuple[l
 	edges = None
 	surfaces = None
 	colors = None
-	return (vertices, edges, surfaces, colors)
-
+	return (vertices, edges, surfaces, colors, gl_mode)
 
 def load_triangle(_position : tuple[float, float, float], _edge : float) -> tuple[list[Matrix], list[tuple[int]], list[tuple[int]]]:
 	m = (_edge ** 2 * 3 / 4) ** (1 / 2)
@@ -92,7 +92,7 @@ def load_triangle(_position : tuple[float, float, float], _edge : float) -> tupl
 	colors = [
 		COLORS['white']
 	]
-	return (vertices, edges, surfaces, colors)
+	return (vertices, edges, surfaces, colors, gl_mode)
 
 def load_square(_position : tuple[float, float, float], _edge : float) -> tuple[list[Matrix], list[tuple[int]], list[tuple[int]]]:
 	gl_mode = GL_QUADS
@@ -111,35 +111,34 @@ def load_square(_position : tuple[float, float, float], _edge : float) -> tuple[
 			_is_vector=True)
 	]
 	edges = [
-		(0, 1),
-		(1, 2),
-		(2, 0),
-
-		(0, 2),
-		(2, 3),
-		(3, 0),
-
 		# (0, 1),
 		# (1, 2),
+		# (2, 0),
+
+		# (0, 2),
 		# (2, 3),
-		# (3, 0)
+		# (3, 0),
+
+		(0, 1),
+		(1, 2),
+		(2, 3),
+		(3, 0)
 	]
 	surfaces = [
-		(0, 1, 2),
-		(0, 2, 3),
-		# (0, 1, 2, 3)
+		# (0, 1, 2),
+		# (0, 2, 3),
+		(0, 1, 2, 3)
 	]
 	colors = [
 		# COLORS['red'],
 		# COLORS['blue'],
 		# COLORS['purple']
 		COLOR_CIRCLE[randint(0, COLOR_CIRCLE_LEN)],
-		COLOR_CIRCLE[randint(0, COLOR_CIRCLE_LEN)],
 	]
-	return (vertices, edges, surfaces, colors)
+	return (vertices, edges, surfaces, colors, gl_mode)
 
 def load_cube(_position : tuple[float, float, float], _edge : float) -> tuple[list[Matrix], list[tuple[int]], list[tuple[int]]]:
-	gl_mode = GL_QUADS
+	gl_mode = GL_TRIANGLES
 	vertices = [
 		Matrix(
 			(_position[0], _position[1], _position[2]),
@@ -168,54 +167,96 @@ def load_cube(_position : tuple[float, float, float], _edge : float) -> tuple[li
 			_is_vector=True),
 	]
 	edges = [
-		# (0, 1),
-		# (1, 2),
-		# (2, 0),
-
-		# (0, 2),
-		# (2, 3),
-		# (3, 0),
-
 		(0, 1),
 		(1, 2),
-		(2, 3),
-		(3, 0),
+		(2, 0),
+		(0, 3),
+		(3, 2),
 
 		(4, 5),
 		(5, 6),
-		(6, 7),
-		(7, 4),
+		(6, 4),
+		(4, 7),
+		(7, 6),
 		
 		(0, 4),
 		(1, 5),
 		(2, 6),
 		(3, 7),
 		
+		(4, 3),
+		(5, 2),
 	]
+	'''
+			3			2
+		0			1
+
+			7			6
+		4			5
+	'''
 	surfaces = [
-		# (0, 1, 2),
-		# (0, 2, 3),
+		
+		(0, 1, 2),
+		(0, 3, 2),
+		(4, 5, 6),
+		(4, 7, 6),
+
+		(4, 5, 1),
+		(4, 0, 1),
+		(7, 6, 2),
+		(7, 3, 2),
+
+		(4, 7, 3),
+		(4, 0, 3),
+		(5, 6, 2),
+		(5, 1, 2),
+
+		
 		# (0, 1, 2, 3),
 		# (4, 5, 6, 7),
 
-		(0, 1, 5, 4),
-		(2, 3, 7, 6),
+		# (0, 1, 5, 4),
+		# (2, 3, 7, 6),
 
-		# (0, 2, 6, 4),
-		# (1, 3, 7, 4),
+		# (0, 3, 7, 4),
+		# (1, 2, 6, 5),
 	]
 	colors = [
 		# COLORS['red'],
 		# COLORS['blue'],
 		# COLORS['purple']
-		COLORS['blue'],
-		COLORS['green'],
-		COLORS['cian'],
-		COLORS['red'],
-		COLORS['purple'],
+
+		# COLORS['blue'],
+		# COLORS['green'],
+		# COLORS['green'],
+		# COLORS['blue'],
+
+		# COLORS['cian'],
+		# COLORS['red'],
+		# COLORS['red'],
+		# COLORS['cian'],
+
+		# COLORS['purple'],
+		# COLORS['yellow'],
+		# COLORS['yellow'],
+		# COLORS['purple'],
+
 		COLORS['yellow'],
+		COLORS['yellow'],
+		COLORS['yellow'],
+		COLORS['yellow'],
+		COLORS['yellow'],
+		COLORS['yellow'],
+		COLORS['yellow'],
+		COLORS['yellow'],
+		COLORS['yellow'],
+		COLORS['yellow'],
+		COLORS['yellow'],
+		COLORS['yellow'],
+
+
 	]
-	return (vertices, edges, surfaces, colors)
+	return (vertices, edges, surfaces, colors, gl_mode)
 
 def load_tetra():
 	pass
@@ -243,6 +284,7 @@ class Shape:
 			self.colors 		: tuple[float, float, float] = _color
 		else:
 			self.colors 		: list[tuple[float, float, float]] = shape_data[3]
+		self.gl_mode = shape_data[4]
 			
 
 	def __repr__(self) -> str:

@@ -66,7 +66,7 @@ def draw_old(_shape : Shape):
     glEnd()
 
 def draw_surfaces(_shape : Shape):
-    glBegin(GL_QUADS)
+    glBegin(_shape.gl_mode)
     # glBegin(GL_POLYGON)
     for surface in range(len(_shape.surfaces)):
         for vertex in _shape.surfaces[surface]:
@@ -82,10 +82,11 @@ def draw_edges(_shape : Shape):
     # for edge in _shape.edges:
     for edge in range(len(_shape.edges)):
         for vertex in _shape.edges[edge]:
-            try:
-                glColor3fv(_shape.colors[edge])
-            except:
-                glColor3fv(*_shape.colors)
+            # try:
+            #     glColor3fv(_shape.colors[edge])
+            # except:
+            #     glColor3fv(*_shape.colors)
+            glColor3fv((0,0,0))
             glVertex3fv(_shape.vertices[vertex].V)
     glEnd()
 
@@ -102,7 +103,7 @@ def draw_vertices(_shape : Shape):
 def draw(_shape : Shape):
     if _shape.surfaces is not None:
         draw_surfaces(_shape)
-    elif _shape.edges is not None:
+    if _shape.edges is not None:
         draw_edges(_shape)
     elif _shape.vertices is not None:
         draw_vertices(_shape)
@@ -125,8 +126,8 @@ def main():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
-        # glRotatef(1, 1, 1, 1)
-        glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
+        glRotatef(0.5, 1, 1, 1)
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 
         for obj in OBJECTS:
             draw(obj)
