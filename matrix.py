@@ -10,6 +10,10 @@ class Matrix:
 			self.n = len(self.M[0])
 		self.is_vector = _is_vector
 	
+	def to_vertex(self) -> tuple[float, float, float]:
+		if self.is_vector:
+			return self.V
+
 	def mul(self, v1, v2):
 		return sum([v1[i] * v2[i] for i in range(len(v1))])
 
@@ -48,11 +52,31 @@ Zero3_Matrix = Matrix(
 
 Zero3_Vector = Matrix((0, 0, 0), True)
 
+from math import cos, sin
+
 M = {
-	'T'		: Zero3_Matrix,
-	'Ro_x'	: Zero3_Matrix,
-	'Ro_y'	: Zero3_Matrix,
-	'Ro_z'	: Zero3_Matrix,
+	'T'		: lambda _vector :	Matrix([
+									[1, 0, 0, _vector[0]],
+									[0, 1, 0, _vector[1]],
+									[0, 0, 1, _vector[2]],
+									[0, 0, 0, 1],
+								]),
+	'Ro_x'	: lambda _angle :	Matrix([
+									[1, 0, 0],
+									[0, cos(_angle), -sin(_angle)],
+									[0, sin(_angle), cos(_angle)],
+								]),
+	'Ro_y'	: lambda _angle :	Matrix([
+									
+									[cos(_angle), 0, sin(_angle)],
+									[0, 1, 0],
+									[-sin(_angle), 0, cos(_angle)],
+								]),
+	'Ro_z'	: lambda _angle :	Matrix([
+									[cos(_angle), -sin(_angle), 0],
+									[sin(_angle), cos(_angle), 0],
+									[0, 0, 1],
+								]),
 	'Sc'	: Zero3_Matrix,
 	'Re_x'	: Zero3_Matrix,
 	'Re_y'	: Zero3_Matrix,
