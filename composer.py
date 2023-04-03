@@ -6,6 +6,9 @@ from OpenGL.GLU import *
 import matrix
 
 COLORS = {
+	'white'		:	(1, 1, 1),
+	'black'		:	(0, 0, 0),
+
 	'red'		:	(1, 0, 0),
 	'green'		:	(0, 1, 0),
 	'blue'		:	(0, 0, 1),
@@ -39,13 +42,16 @@ class Vertex:
 		self.z = new_vertex.V[2]
 		self.V = new_vertex.V
 
-	def rotate(self, _angle : float, _axis : str) -> None:
-		new_vertex : matrix.Matrix = matrix.M[_axis](_angle) * matrix.Matrix(self.V, _is_vector=True)
-		print(new_vertex.V)
-		self.x = new_vertex.V[0]
-		self.y = new_vertex.V[1]
-		self.z = new_vertex.V[2]
+	def rotate(self, _position, _angle : float, _axis : str) -> None:
+		new_vertex : matrix.Matrix = matrix.M[_axis](_angle) * matrix.Matrix((self - _position).V, _is_vector=True)
+		# print(new_vertex.V)
+		self.x = new_vertex.V[0] + _position.x
+		self.y = new_vertex.V[1] + _position.y
+		self.z = new_vertex.V[2] + _position.z
 		self.V = new_vertex.V
+
+	def __sub__(self, _v):
+		return Vertex(self.x - _v.x, self.y - _v.y, self.z - _v.z)
 
 class Shape2D:
 	def __init__(self, _position : Vertex = Vertex(0, 0, 0), _vertices : list[Vertex] = list(), _color : tuple[float] = None) -> None:
@@ -53,7 +59,7 @@ class Shape2D:
 		self.vertices : list[Vertex] = _vertices
 		self.color = _color
 
-	def draw(self, _draw_vertices : bool = False) -> None:
+	def draw(self, _true, _draw_vertices : bool = False) -> None:
 		glBegin(GL_TRIANGLE_FAN)
 		glColor3f(*self.color)
 		for vertex in self.vertices:
@@ -68,7 +74,37 @@ class Shape2D:
 
 	def rotate(self, _angle : float, _axis : str) -> None:
 		for vertex in self.vertices:
-			vertex.rotate(_angle, _axis)
+			vertex.rotate(self.position, _angle, _axis)
+
+	@staticmethod
+	def Square(_position : Vertex = Vertex(0, 0, 0), _edge : float = 1, _color : tuple[float] = None, _rotation : tuple[float, str] = None):
+		half_edge = _edge / 2
+		VERTICES = [
+			Vertex(
+				_position.x - half_edge,
+				_position.y - half_edge,
+				_position.z,
+			),
+			Vertex(
+				_position.x + half_edge,
+				_position.y - half_edge,
+				_position.z,
+			),
+			Vertex(
+				_position.x + half_edge,
+				_position.y + half_edge,
+				_position.z,
+			),
+			Vertex(
+				_position.x - half_edge,
+				_position.y + half_edge,
+				_position.z,
+			)
+		]
+		square = Shape2D(_position, VERTICES, _color)
+		if _rotation is not None:
+			square.rotate(*_rotation)
+		return square
 
 class Shape3D:
 	def __init__(self, _position : Vertex = Vertex(0, 0, 0), _vertices : list[Vertex] = list(), _surfaces : list[Shape2D] = list(), _color : tuple[float] = None) -> None:
@@ -97,7 +133,7 @@ class Shape3D:
 			surface.rotate(_angle, _axis)
 
 	@staticmethod
-	def Cube(_position : Vertex = Vertex(0, 0, 0), _edge : float = 1):
+	def Cube(_position : Vertex = Vertex(0, 0, 0), _edge : float = 1, _color : tuple[float] = None):
 		half_edge = _edge / 2
 		'''
 				3			2
@@ -156,45 +192,137 @@ class Shape3D:
 				VERTICES[1],
 				VERTICES[2],
 				VERTICES[3],
-			], COLORS['yellow_c']),
+			], _color),
 			Shape2D(_position, [
 				VERTICES[4],
 				VERTICES[5],
 				VERTICES[6],
 				VERTICES[7],
-			], COLORS['yellow_c']),
+			], _color),
 
 			Shape2D(_position, [
 				VERTICES[0],
 				VERTICES[1],
 				VERTICES[5],
 				VERTICES[4],
-			], COLORS['yellow_c']),
+			], _color),
 			Shape2D(_position, [
 				VERTICES[2],
 				VERTICES[3],
 				VERTICES[7],
 				VERTICES[6],
-			], COLORS['yellow_c']),
+			], _color),
 
 			Shape2D(_position, [
 				VERTICES[0],
 				VERTICES[3],
 				VERTICES[7],
 				VERTICES[4],
-			], COLORS['yellow_c']),
+			], _color),
 			Shape2D(_position, [
 				VERTICES[1],
 				VERTICES[2],
 				VERTICES[6],
 				VERTICES[5],
-			], COLORS['yellow_c']),
+			], _color),
 			
 		])
 	
 	@staticmethod
 	def Tetrahidron(_position : Vertex = Vertex(0, 0, 0), _edge : float = 1):
-		pass
+		half_edge = _edge / 2
+		'''
+				3			2
+			0			1
+
+				7			6
+			4			5
+		'''
+		VERTICES = [
+			Vertex(
+				_position.x - half_edge,
+				_position.y - half_edge,
+				_position.z - half_edge,
+			),
+			Vertex(
+				_position.x - half_edge,
+				_position.y + half_edge,
+				_position.z - half_edge,
+			),
+			Vertex(
+				_position.x + half_edge,
+				_position.y + half_edge,
+				_position.z - half_edge,
+			),
+			Vertex(
+				_position.x + half_edge,
+				_position.y - half_edge,
+				_position.z - half_edge,
+			),
+			
+			Vertex(
+				_position.x - half_edge,
+				_position.y - half_edge,
+				_position.z + half_edge,
+			),
+			Vertex(
+				_position.x - half_edge,
+				_position.y + half_edge,
+				_position.z + half_edge,
+			),
+			Vertex(
+				_position.x + half_edge,
+				_position.y + half_edge,
+				_position.z + half_edge,
+			),
+			Vertex(
+				_position.x + half_edge,
+				_position.y - half_edge,
+				_position.z + half_edge,
+			),
+			
+		]
+		return Shape3D(_position, VERTICES, [
+			Shape2D(_position, [
+				VERTICES[0],
+				VERTICES[1],
+				VERTICES[2],
+				VERTICES[3],
+			], _color),
+			Shape2D(_position, [
+				VERTICES[4],
+				VERTICES[5],
+				VERTICES[6],
+				VERTICES[7],
+			], _color),
+
+			Shape2D(_position, [
+				VERTICES[0],
+				VERTICES[1],
+				VERTICES[5],
+				VERTICES[4],
+			], _color),
+			Shape2D(_position, [
+				VERTICES[2],
+				VERTICES[3],
+				VERTICES[7],
+				VERTICES[6],
+			], _color),
+
+			Shape2D(_position, [
+				VERTICES[0],
+				VERTICES[3],
+				VERTICES[7],
+				VERTICES[4],
+			], _color),
+			Shape2D(_position, [
+				VERTICES[1],
+				VERTICES[2],
+				VERTICES[6],
+				VERTICES[5],
+			], _color),
+			
+		])
 	
 	@staticmethod
 	def Octahidron(_position : Vertex = Vertex(0, 0, 0), _edge : float = 1):
