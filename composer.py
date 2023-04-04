@@ -229,56 +229,36 @@ class Shape3D:
 		])
 	
 	@staticmethod
-	def Tetrahidron(_position : Vertex = Vertex(0, 0, 0), _edge : float = 1):
+	def Tetrahedron(_position : Vertex = Vertex(0, 0, 0), _edge : float = 1, _color : tuple[float] = None):
 		half_edge = _edge / 2
+		height_base = (_edge ** 2 - (_edge / 2) ** 2) ** 0.5
+		height = (_edge ** 2 - (2 * height_base / 3) ** 2) ** 0.5
 		'''
-				3			2
-			0			1
+					3		
 
-				7			6
-			4			5
+					2		
+			0			1
 		'''
 		VERTICES = [
 			Vertex(
 				_position.x - half_edge,
-				_position.y - half_edge,
-				_position.z - half_edge,
-			),
-			Vertex(
-				_position.x - half_edge,
-				_position.y + half_edge,
-				_position.z - half_edge,
+				_position.y,
+				_position.z - height_base / 3,
 			),
 			Vertex(
 				_position.x + half_edge,
-				_position.y + half_edge,
-				_position.z - half_edge,
+				_position.y,
+				_position.z - height_base / 3,
 			),
 			Vertex(
-				_position.x + half_edge,
-				_position.y - half_edge,
-				_position.z - half_edge,
-			),
-			
-			Vertex(
-				_position.x - half_edge,
-				_position.y - half_edge,
-				_position.z + half_edge,
+				_position.x,
+				_position.y,
+				_position.z + 2 * height_base / 3,
 			),
 			Vertex(
-				_position.x - half_edge,
-				_position.y + half_edge,
-				_position.z + half_edge,
-			),
-			Vertex(
-				_position.x + half_edge,
-				_position.y + half_edge,
-				_position.z + half_edge,
-			),
-			Vertex(
-				_position.x + half_edge,
-				_position.y - half_edge,
-				_position.z + half_edge,
+				_position.x,
+				_position.y + height,
+				_position.z,
 			),
 			
 		]
@@ -287,44 +267,26 @@ class Shape3D:
 				VERTICES[0],
 				VERTICES[1],
 				VERTICES[2],
-				VERTICES[3],
 			], _color),
-			Shape2D(_position, [
-				VERTICES[4],
-				VERTICES[5],
-				VERTICES[6],
-				VERTICES[7],
-			], _color),
-
 			Shape2D(_position, [
 				VERTICES[0],
 				VERTICES[1],
-				VERTICES[5],
-				VERTICES[4],
-			], _color),
-			Shape2D(_position, [
-				VERTICES[2],
 				VERTICES[3],
-				VERTICES[7],
-				VERTICES[6],
-			], _color),
-
-			Shape2D(_position, [
-				VERTICES[0],
-				VERTICES[3],
-				VERTICES[7],
-				VERTICES[4],
 			], _color),
 			Shape2D(_position, [
 				VERTICES[1],
 				VERTICES[2],
-				VERTICES[6],
-				VERTICES[5],
+				VERTICES[3],
+			], _color),
+			Shape2D(_position, [
+				VERTICES[2],
+				VERTICES[0],
+				VERTICES[3],
 			], _color),
 			
 		])
 	
 	@staticmethod
-	def Octahidron(_position : Vertex = Vertex(0, 0, 0), _edge : float = 1):
+	def Octahedron(_position : Vertex = Vertex(0, 0, 0), _edge : float = 1):
 		pass
 
