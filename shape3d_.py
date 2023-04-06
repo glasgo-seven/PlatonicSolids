@@ -1,110 +1,8 @@
-import pygame
-from pygame.locals import *
-from OpenGL.GL import *
-from OpenGL.GLU import *
+from util import *
 
-import matrix
-
-COLORS = {
-	'white'		:	(1, 1, 1),
-	'black'		:	(0, 0, 0),
-
-	'red'		:	(1, 0, 0),
-	'green'		:	(0, 1, 0),
-	'blue'		:	(0, 0, 1),
-		
-	'magenta'	:	(1, 0, 1),
-	'yellow'	:	(1, 1, 0),
-	'yellow_c'	:	(1, 0.75, 0),
-	'cian'		:	(0, 1, 1),
-}
-
-class Vertex:
-	def __init__(self, _x : float, _y : float, _z : float) -> None:
-		self.x : float = _x
-		self.y : float = _y
-		self.z : float = _z
-		self.V : tuple[float, float, float] = self.set_tuple()
-
-	def set_tuple(self) -> tuple[float, float, float]:
-		return (self.x, self.y, self.z)
-
-	def draw(self) -> None:
-		glBegin(GL_POINTS)
-		glVertex3f(self.x, self.y, self.z)
-		glEnd()
-		
-	def translate(self, _vector : list[float]) -> None:
-		new_vertex : matrix.Matrix = matrix.M['T'](_vector) * matrix.Matrix(list(self.V).append(1), _is_vector=True)
-		print(new_vertex.V)
-		self.x = new_vertex.V[0]
-		self.y = new_vertex.V[1]
-		self.z = new_vertex.V[2]
-		self.V = new_vertex.V
-
-	def rotate(self, _position, _angle : float, _axis : str) -> None:
-		new_vertex : matrix.Matrix = matrix.M[_axis](_angle) * matrix.Matrix((self - _position).V, _is_vector=True)
-		# print(new_vertex.V)
-		self.x = new_vertex.V[0] + _position.x
-		self.y = new_vertex.V[1] + _position.y
-		self.z = new_vertex.V[2] + _position.z
-		self.V = new_vertex.V
-
-	def __sub__(self, _v):
-		return Vertex(self.x - _v.x, self.y - _v.y, self.z - _v.z)
-
-class Shape2D:
-	def __init__(self, _position : Vertex = Vertex(0, 0, 0), _vertices : list[Vertex] = list(), _color : tuple[float] = None) -> None:
-		self.position : Vertex = _position
-		self.vertices : list[Vertex] = _vertices
-		self.color = _color
-
-	def draw(self, _true, _draw_vertices : bool = False) -> None:
-		glBegin(GL_TRIANGLE_FAN)
-		glColor3f(*self.color)
-		for vertex in self.vertices:
-			glVertex3f(vertex.x, vertex.y, vertex.z)
-			if _draw_vertices:
-				vertex.draw()
-		glEnd()
-
-	def translate(self, _vector : list[float]) -> None:
-		for vertex in self.vertices:
-			vertex.translate(_vector)
-
-	def rotate(self, _angle : float, _axis : str) -> None:
-		for vertex in self.vertices:
-			vertex.rotate(self.position, _angle, _axis)
-
-	@staticmethod
-	def Square(_position : Vertex = Vertex(0, 0, 0), _edge : float = 1, _color : tuple[float] = None, _rotation : tuple[float, str] = None):
-		half_edge = _edge / 2
-		VERTICES = [
-			Vertex(
-				_position.x - half_edge,
-				_position.y - half_edge,
-				_position.z,
-			),
-			Vertex(
-				_position.x + half_edge,
-				_position.y - half_edge,
-				_position.z,
-			),
-			Vertex(
-				_position.x + half_edge,
-				_position.y + half_edge,
-				_position.z,
-			),
-			Vertex(
-				_position.x - half_edge,
-				_position.y + half_edge,
-				_position.z,
-			)
-		]
-		square = Shape2D(_position, VERTICES, _color)
-		if _rotation is not None:
-			square.rotate(*_rotation)
-		return square
+from vertex import Vertex
+from shape1d import Shape1D
+from shape2d import Shape2D
 
 class Shape3D:
 	def __init__(self, _position : Vertex = Vertex(0, 0, 0), _vertices : list[Vertex] = list(), _surfaces : list[Shape2D] = list(), _color : tuple[float] = None) -> None:
@@ -229,7 +127,7 @@ class Shape3D:
 		])
 	
 	@staticmethod
-	def Tetrahidron(_position : Vertex = Vertex(0, 0, 0), _edge : float = 1):
+	def Tetrahidron(_position : Vertex = Vertex(0, 0, 0), _edge : float = 1, _color : tuple[float] = None):
 		half_edge = _edge / 2
 		'''
 				3			2
@@ -327,4 +225,3 @@ class Shape3D:
 	@staticmethod
 	def Octahidron(_position : Vertex = Vertex(0, 0, 0), _edge : float = 1):
 		pass
-
