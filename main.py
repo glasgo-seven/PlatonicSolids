@@ -42,11 +42,16 @@ def main():
 	shape = Shape3D.Cube()
 	# SHAPES.append(Shape2D.Square(Vertex(0, 0, -2), .25, COLORS['white']))
 	# SHAPES.append(Shape3D.Cube(Vertex(1, 0, -2), 1, COLORS['yellow_c']))
+<<<<<<< HEAD
 	# SHAPES.append(Shape2D.Line(Vertex(0, 0, 0), 1, COLORS['yellow_c']))
 	# SHAPES.append(Shape2D.Axises())
 
 	# SHAPES.append(Shape2D.Square(_color=COLORS['yellow_c']))
 
+=======
+	SHAPES.append(Shape3D.Tetrahedron(Vertex(0, 0, 0), 1, COLORS['yellow_c']))
+	SHAPES.append(Shape2D.Square(Vertex(0, 0, 0), 1, COLORS['white']))
+>>>>>>> 754121a9218c5e488ff20f1da8f0f8dc8a5ee0af
 	# SHAPES.append(Shape2D.Square(Vertex(0, 0, 1), 1, COLORS['red']))
 	# SHAPES.append(Shape2D.Square(Vertex(0, 0, -1), 1, COLORS['blue']))
 	# SHAPES.append(Shape2D.Square(Vertex(1, 0, 0), 1, COLORS['green'], (pi/2, 'Ro_y')))
