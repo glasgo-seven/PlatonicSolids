@@ -1,20 +1,20 @@
-from math import radians
+from math import radians, degrees, pi
+from random import uniform
 
 import pygame
+from pygame.locals import *
+from OpenGL.GL import *
+from OpenGL.GLU import *
 
-from util import *
-
-from vertex import Vertex
-from shape1d import Shape1D
-from shape2d import Shape2D
-from shape3d import Shape3D
+from composer import *
+from matrix import *
 
 def main():
 	pygame.init()
-	display = (800,600)
+	display = (800, 600)
 	pygame.display.set_mode(display, DOUBLEBUF|OPENGL)
 	gluPerspective(45, (display[0]/display[1]), 0.1, 50.0)
-	glTranslatef(0, 0, -4)
+	glTranslatef(0, 0, -8)
 	# glRotatef(225, 0, 1, 0)
 
 	# glMatrixMode (GL_PROJECTION)
@@ -39,19 +39,21 @@ def main():
 	# glLightf(GL_LIGHT4, GL_SPOT_EXPONENT, 15.0)
 
 	SHAPES : list[Shape2D | Shape3D] = list()
-	shape = Shape3D.Cube()
+	SHAPES.append(Shape2D.Axises())
+
+	# shape = Shape3D.Cube()
 	# SHAPES.append(Shape2D.Square(Vertex(0, 0, -2), .25, COLORS['white']))
-	# SHAPES.append(Shape3D.Cube(Vertex(1, 0, -2), 1, COLORS['yellow_c']))
-<<<<<<< HEAD
+	SHAPES.append(Shape3D.Cube(Vertex(-2, 0, 0), 1, COLORS['yellow_c']))
+	SHAPES.append(Shape3D.Tetrahedron(Vertex(2, 0, 0), 1, COLORS['red']))
+	SHAPES.append(Shape3D.Octahedron(Vertex(0, 2, 0), 1, COLORS['cyan']))
+	SHAPES.append(Shape3D.Icosahedron(Vertex(0, -2, 0), 1, COLORS['blue']))
+	# SHAPES.append(Shape3D.Dodecahedron(Vertex(0, 0, 0), 1, COLORS['magenta']))
+
+
 	# SHAPES.append(Shape2D.Line(Vertex(0, 0, 0), 1, COLORS['yellow_c']))
-	# SHAPES.append(Shape2D.Axises())
 
-	# SHAPES.append(Shape2D.Square(_color=COLORS['yellow_c']))
+	# SHAPES.append(Shape2D.Cirlce(Vertex(0, 0, 0), 1, _color=COLORS['red']))
 
-=======
-	SHAPES.append(Shape3D.Tetrahedron(Vertex(0, 0, 0), 1, COLORS['yellow_c']))
-	SHAPES.append(Shape2D.Square(Vertex(0, 0, 0), 1, COLORS['white']))
->>>>>>> 754121a9218c5e488ff20f1da8f0f8dc8a5ee0af
 	# SHAPES.append(Shape2D.Square(Vertex(0, 0, 1), 1, COLORS['red']))
 	# SHAPES.append(Shape2D.Square(Vertex(0, 0, -1), 1, COLORS['blue']))
 	# SHAPES.append(Shape2D.Square(Vertex(1, 0, 0), 1, COLORS['green'], (pi/2, 'Ro_y')))
@@ -59,6 +61,11 @@ def main():
 
 	clock = pygame.time.Clock()
 	is_over = False
+
+	angle_x = 0
+	angle_y = 0
+	angle_z = 0
+
 
 	while not is_over:
 		dX = 0
@@ -73,20 +80,24 @@ def main():
 			if event.type == pygame.KEYDOWN:
 				if event.key == pygame.K_KP2:
 					dX += 1
+					angle = 15
 				if event.key == pygame.K_KP8:
 					dX -= 1
-				
+					angle = 15
+
 				if event.key == pygame.K_KP6:
 					dY += 1
+					angle = 15
 				if event.key == pygame.K_KP4:
 					dY -= 1
+					angle = 15
 				
 				if event.key == pygame.K_KP7:
 					dZ += 1
+					angle = 15
 				if event.key == pygame.K_KP9:
 					dZ -= 1
-				
-				angle = 15
+					angle = 15
 
 		glRotatef(angle, dX, dY, dZ)
 		# glRotatef(.5, 1, 1, 1)
@@ -95,21 +106,27 @@ def main():
 		# shape.translate([1, 0, 0])
 		# shape.rotate(.04, 'Ro_y')
 		for shape in SHAPES:
-			shape.draw(True, True)
-			# shape.rotate(radians(1), 'Ro_y')
-			shape.rotate(ANGLES['1'], 'Ro_y')
+			shape.draw(True, False)
+		SHAPES[1].rotate(radians(1), 'Ro_y')
+		SHAPES[2].rotate(radians(1), 'Ro_z')
+		SHAPES[3].rotate(radians(1), 'Ro_x')
+		SHAPES[4].rotate(radians(1), 'Ro_y')
+
+		
+		# angle_x += uniform(-1, 1)
+		# angle_y += uniform(-1, 1)
+		# angle_z += uniform(-1, 1)
+		# SHAPES[-2].rotate_any(radians(angle_z), radians(angle_y), radians(angle_x))
+		# SHAPES[1].rotate(radians(1), 'Ro_y')
 			# print(shape.position.V)
 			# for vertex in shape.vertices:
 			# 	print(vertex.V)
 			# print()
 
-		clock.tick(40)
+		clock.tick(30)
 		pygame.display.set_caption(f'{int(clock.get_fps())}')
 		pygame.display.flip()
 		# pygame.time.wait(30)
 
 if __name__ == '__main__':
 	main()
-
-
-
