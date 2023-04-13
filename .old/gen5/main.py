@@ -1,13 +1,9 @@
-from math import radians, degrees, pi
-from random import uniform
 
-import pygame
-from pygame.locals import *
-from OpenGL.GL import *
-from OpenGL.GLU import *
-
-from composer import *
+from util import *
 from matrix import *
+from shape3d import Shape3D
+from shape2d import Shape2D
+from vertex import Vertex
 
 def main():
 	pygame.init()
@@ -44,11 +40,14 @@ def main():
 	# shape = Shape3D.Cube()
 	# SHAPES.append(Shape2D.Square(Vertex(0, 0, -2), .25, COLORS['white']))
 
-	# SHAPES.append(Shape3D.Cube(Vertex(-2, 0, 0), 1, COLORS['yellow_c']))
+	# SHAPES.append(Shape3D.Cube(Vertex(0, 0, 0), 1, COLORS['yellow_c']))
+
+	SHAPES.append(Shape3D.Cube(Vertex(0, 0, 0), 1, 0, COLORS['yellow_c']))
+
 	# SHAPES.append(Shape3D.Tetrahedron(Vertex(2, 0, 0), 1, COLORS['red']))
 	# SHAPES.append(Shape3D.Octahedron(Vertex(0, 2, 0), 1, COLORS['cyan']))
 	# SHAPES.append(Shape3D.Icosahedron(Vertex(0, -2, 0), 1, COLORS['blue']))
-	SHAPES.append(Shape3D.Dodecahedron(Vertex(0, 0, 0), 1, COLORS['yellow_c']))
+	# SHAPES.append(Shape3D.Dodecahedron(Vertex(0, 0, 0), 1, COLORS['yellow_c']))
 
 	# SHAPES.append(Shape3D.Dodecahedron(Vertex(0, 0, 0), 1, COLORS['magenta']))
 
@@ -120,7 +119,7 @@ def main():
 		# angle_y += uniform(-1, 1)
 		# angle_z += uniform(-1, 1)
 		# SHAPES[-2].rotate_any(radians(angle_z), radians(angle_y), radians(angle_x))
-		SHAPES[1].rotate(radians(1), 'Ro_y')
+		# SHAPES[1].rotate(radians(1), 'Ro_y')
 			# print(shape.position.V)
 			# for vertex in shape.vertices:
 			# 	print(vertex.V)

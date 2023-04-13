@@ -667,12 +667,7 @@ class Shape3D:
 		fi = pi * 2 / 5
 		r = _edge / (2 * sin(fi / 2))
 		circumradius = (3 ** (1 / 2)) * (1 + (5 ** (1 / 2))) * _edge / 4
-		_y_top = _edge / 2 * (3 * (3 + 2 * (5 ** (1 / 2))) / 2 - 1 / sin(fi / 2)) ** (1 / 2)
-		y_top = (circumradius ** 2 - r ** 2) ** (1 / 2)
-		d = _edge / 2 * (1 + (5 ** (1 / 2)))
-		r_ = d / (2 * sin(fi / 2))
-		y_mid = (circumradius ** 2 - r_ ** 2) ** (1 / 2)
-
+		y_top = _edge / 2 * (3 * (3 + 2 * (5 ** (1 / 2))) / 2 - 1 / sin(fi / 2)) ** (1 / 2)
 		
 		# print(circumradius, y_top)
 		'''
@@ -703,8 +698,8 @@ class Shape3D:
 		for i in range(5):
 			vertex = Vertex(
 				_position.x,
-				_position.y + y_mid,
-				_position.z - r_,
+				_position.y + y_top / 2,
+				_position.z - r*2,
 			)
 			vertex.rotate(_position, fi * i, 'Ro_y')
 			VERTICES.append(vertex)
@@ -713,8 +708,8 @@ class Shape3D:
 		for i in range(5):
 			vertex = Vertex(
 				_position.x,
-				_position.y - y_mid,
-				_position.z + r_,
+				_position.y - y_top / 2,
+				_position.z + r*2,
 			)
 			vertex.rotate(_position, fi * i, 'Ro_y')
 			VERTICES.append(vertex)
@@ -742,86 +737,29 @@ class Shape3D:
 			], _color),
 
 			Shape2D(_position, [
-				VERTICES[0],
-				VERTICES[1],
-				VERTICES[6],
-				VERTICES[-7],
 				VERTICES[5],
-			], _color),
-			Shape2D(_position, [
-				VERTICES[1],
-				VERTICES[2],
-				VERTICES[7],
-				VERTICES[-6],
 				VERTICES[6],
-			], _color),
-			Shape2D(_position, [
-				VERTICES[2],
-				VERTICES[3],
-				VERTICES[8],
-				VERTICES[-10],
 				VERTICES[7],
-			], _color),
-			Shape2D(_position, [
-				VERTICES[3],
-				VERTICES[4],
-				VERTICES[9],
-				VERTICES[-9],
 				VERTICES[8],
-			], _color),
-			Shape2D(_position, [
-				VERTICES[4],
-				VERTICES[0],
-				VERTICES[5],
-				VERTICES[-8],
 				VERTICES[9],
 			], _color),
 
 			Shape2D(_position, [
-				VERTICES[-1],
-				VERTICES[-2],
-				VERTICES[-7],
-				VERTICES[6],
-				VERTICES[-6],
-			], _color),
-			Shape2D(_position, [
-				VERTICES[-2],
-				VERTICES[-3],
-				VERTICES[-8],
-				VERTICES[5],
-				VERTICES[-7],
-			], _color),
-			Shape2D(_position, [
-				VERTICES[-3],
-				VERTICES[-4],
-				VERTICES[-9],
-				VERTICES[9],
-				VERTICES[-8],
-			], _color),
-			Shape2D(_position, [
-				VERTICES[-4],
-				VERTICES[-5],
-				VERTICES[-10],
-				VERTICES[8],
-				VERTICES[-9],
-			], _color),
-			Shape2D(_position, [
-				VERTICES[-5],
-				VERTICES[-1],
-				VERTICES[-6],
-				VERTICES[7],
-				VERTICES[-10],
+				VERTICES[10],
+				VERTICES[11],
+				VERTICES[12],
+				VERTICES[13],
+				VERTICES[14],
 			], _color),
 			
 
 			Shape2D(_position, [
-				VERTICES[-1],
-				VERTICES[-2],
-				VERTICES[-3],
-				VERTICES[-4],
-				VERTICES[-5],
+				VERTICES[15],
+				VERTICES[16],
+				VERTICES[17],
+				VERTICES[18],
+				VERTICES[19],
 			], _color),
 			
-
 
 		])
