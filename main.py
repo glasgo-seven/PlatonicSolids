@@ -1,15 +1,13 @@
-from math import radians, degrees, pi
-from random import uniform
+from utils import *
+from vertex import Vertex
+from shape2d import Shape2D
+from shape3d import Shape3D
+from composer2d import Axises
+from composer3d import Dodecahedron
 
-import pygame
-from pygame.locals import *
-from OpenGL.GL import *
-from OpenGL.GLU import *
-
-from composer import *
-from matrix import *
 
 def main():
+
 	pygame.init()
 	display = (800, 600)
 	pygame.display.set_mode(display, DOUBLEBUF|OPENGL)
@@ -31,36 +29,9 @@ def main():
 	glEnable(GL_COLOR_MATERIAL)
 	glLightfv(GL_LIGHT0, GL_POSITION, (0, 0, 4, 1))
 
-	# glEnable(GL_LIGHT4)
-	# glLightfv(GL_LIGHT4, GL_DIFFUSE, (0.4, 0.7, 0.2))
-	# glLightfv(GL_LIGHT4, GL_POSITION, (0.0, 0.0, 4, 1.0))
-	# glLightf(GL_LIGHT4, GL_SPOT_CUTOFF, 30)
-	# glLightfv(GL_LIGHT4, GL_SPOT_DIRECTION, (0.0, 0.0, -1.0))
-	# glLightf(GL_LIGHT4, GL_SPOT_EXPONENT, 15.0)
-
 	SHAPES : list[Shape2D | Shape3D] = list()
-	SHAPES.append(Shape2D.Axises())
-
-	# shape = Shape3D.Cube()
-	# SHAPES.append(Shape2D.Square(Vertex(0, 0, -2), .25, COLORS['white']))
-
-	# SHAPES.append(Shape3D.Cube(Vertex(-2, 0, 0), 1, COLORS['yellow_c']))
-	# SHAPES.append(Shape3D.Tetrahedron(Vertex(2, 0, 0), 1, COLORS['red']))
-	# SHAPES.append(Shape3D.Octahedron(Vertex(0, 2, 0), 1, COLORS['cyan']))
-	# SHAPES.append(Shape3D.Icosahedron(Vertex(0, -2, 0), 1, COLORS['blue']))
-	SHAPES.append(Shape3D.Dodecahedron(Vertex(0, 0, 0), 1, COLORS['yellow_c']))
-
-	# SHAPES.append(Shape3D.Dodecahedron(Vertex(0, 0, 0), 1, COLORS['magenta']))
-
-
-	# SHAPES.append(Shape2D.Line(Vertex(0, 0, 0), 1, COLORS['yellow_c']))
-
-	# SHAPES.append(Shape2D.Cirlce(Vertex(0, 0, 0), 1, _color=COLORS['red']))
-
-	# SHAPES.append(Shape2D.Square(Vertex(0, 0, 1), 1, COLORS['red']))
-	# SHAPES.append(Shape2D.Square(Vertex(0, 0, -1), 1, COLORS['blue']))
-	# SHAPES.append(Shape2D.Square(Vertex(1, 0, 0), 1, COLORS['green'], (pi/2, 'Ro_y')))
-	# SHAPES.append(Shape2D.Square(Vertex(-1, 0, 0), 1, COLORS['yellow'], (pi/2, 'Ro_y')))
+	SHAPES.append(Axises())
+	SHAPES.append(Dodecahedron(Vertex(0, 0, 0), 1, COLORS['yellow_c']))
 
 	clock = pygame.time.Clock()
 	is_over = False
@@ -68,7 +39,6 @@ def main():
 	angle_x = 0
 	angle_y = 0
 	angle_z = 0
-
 
 	while not is_over:
 		dX = 0
@@ -106,25 +76,10 @@ def main():
 		# glRotatef(.5, 1, 1, 1)
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 
-		# shape.translate([1, 0, 0])
-		# shape.rotate(.04, 'Ro_y')
 		for shape in SHAPES:
 			shape.draw(True, False)
 		# SHAPES[1].rotate(radians(1), 'Ro_y')
-		# SHAPES[2].rotate(radians(1), 'Ro_z')
-		# SHAPES[3].rotate(radians(1), 'Ro_x')
-		# SHAPES[4].rotate(radians(1), 'Ro_y')
-
-		
-		# angle_x += uniform(-1, 1)
-		# angle_y += uniform(-1, 1)
-		# angle_z += uniform(-1, 1)
-		# SHAPES[-2].rotate_any(radians(angle_z), radians(angle_y), radians(angle_x))
-		SHAPES[1].rotate(radians(1), 'Ro_y')
-			# print(shape.position.V)
-			# for vertex in shape.vertices:
-			# 	print(vertex.V)
-			# print()
+		SHAPES[1].translate([.01, .01, .01])
 
 		clock.tick(30)
 		pygame.display.set_caption(f'{int(clock.get_fps())}')
