@@ -20,6 +20,7 @@ class Shape2D:
 	def translate(self, _vector : list[float]) -> None:
 		for vertex in self.vertices:
 			vertex.translate(_vector)
+		self.position.translate(_vector)
 
 	def rotate(self, _angle : float, _axis : str) -> None:
 		for vertex in self.vertices:

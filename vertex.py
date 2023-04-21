@@ -16,10 +16,11 @@ class Vertex:
 		glVertex3f(self.x, self.y, self.z)
 		glEnd()
 
-	def translate(self, _vector : list[float]) -> None:
-		error(self.V, list(self.V), [*self.V, 1])
+	def translate(self, _vector : list[float]) -> list[float]:
+		# error(self.V, list(self.V), [*self.V, 1])
+		# error(_vector)
 		new_vertex : Matrix = M['T'](_vector) * Matrix([*self.V, 1], _is_vector=True)
-		print(new_vertex.V)
+		# print(new_vertex.V)
 		self.x = new_vertex.V[0]
 		self.y = new_vertex.V[1]
 		self.z = new_vertex.V[2]

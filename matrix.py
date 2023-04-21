@@ -23,6 +23,8 @@ class Matrix:
 			for n in range(self.n):
 				content[n][m] = self.M[m][n]
 		return Matrix(content)
+	
+
 
 	def __mul__(self, _mul):
 		if self.is_vector and _mul.is_vector and self.n == _mul.n:
