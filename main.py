@@ -2,8 +2,9 @@ from utils import *
 from vertex import Vertex
 from shape2d import Shape2D
 from shape3d import Shape3D
-from composer2d import Axises
+from composer2d import Axises, Square
 from composer3d import Cube, Tetrahedron, Octahedron, Icosahedron, Dodecahedron
+from object import Object
 
 
 def main():
@@ -12,7 +13,7 @@ def main():
 	display = (800, 600)
 	pygame.display.set_mode(display, DOUBLEBUF|OPENGL)
 	gluPerspective(45, (display[0]/display[1]), 0.1, 50.0)
-	glTranslatef(0, 0, -10)
+	glTranslatef(*CAM_POSITION)
 	# glRotatef(225, 0, 1, 0)
 
 	# glMatrixMode (GL_PROJECTION)
@@ -27,17 +28,55 @@ def main():
 	glEnable(GL_LIGHTING)
 	glEnable(GL_LIGHT0)
 	glEnable(GL_COLOR_MATERIAL)
-	glLightfv(GL_LIGHT0, GL_POSITION, (0, 0, 8, 1))
+	glLightfv(GL_LIGHT0, GL_POSITION, (0, 0, LIGHT_POSITION, 1))
 
-	SHAPES : list[Shape2D | Shape3D] = list()
-	SHAPES.append(Axises())
+	SHAPES_DEBUG : list[Shape2D | Shape3D] = list()
+	# SHAPES_DEBUG.append(Axises())
+	# SHAPES_DEBUG.append(
+	# 	Square(Vertex(0, 8, 0), 16, COLORS['dark_gray'], (pi/2, 'Ro_x'))
+	# )
+	# SHAPES_DEBUG.append(
+	# 	Square(Vertex(0, -8, 0), 16, COLORS['dark_gray'], (pi/2, 'Ro_x'))
+	# )
+	# SHAPES_DEBUG.append(
+	# 	Square(Vertex(8, 0, 0), 16, COLORS['dark_gray'], (pi/2, 'Ro_y'))
+	# )
+	# SHAPES_DEBUG.append(
+	# 	Square(Vertex(-8, 0, 0), 16, COLORS['dark_gray'], (pi/2, 'Ro_y'))
+	# )
+
+	SHAPES : list[Object] = list()
 	# SHAPES.append(Cube(Vertex(-4, 0, 0), 1, COLORS['red']))
 	# SHAPES.append(Tetrahedron(Vertex(-2, 0, 0), 1.2, COLORS['cyan']))
 	# SHAPES.append(Octahedron(Vertex(2, 0, 0), 0.95, COLORS['green']))
 	# SHAPES.append(Icosahedron(Vertex(-4, 0, 0), 0.7, COLORS['magenta']))
 	# SHAPES.append(Dodecahedron(Vertex(6, 0, 0), 0.5, COLORS['yellow']))
 
-	SHAPES.append(Cube(Vertex(-2, 2, 0), 0.5, COLORS['red']))
+	SHAPES.append(
+		Object(
+			_position=Vertex(-1, 1, 0),
+			_face=Vertex(1, 0, 0),
+			_direction=None,
+			_shape=Cube(Vertex(0, 0, 0), 0.5, COLORS['red'])
+			)
+		)
+	# SHAPES.append(
+	# 	Object(
+	# 		_position=Vertex(0, 0, 0),
+	# 		_face=Vertex(1, 0, 0),
+	# 		_direction=None,
+	# 		_shape=Cube(Vertex(0, 0, 0), 0.5, COLORS['green'])
+	# 		)
+	# 	)
+	# SHAPES.append(
+	# 	Object(
+	# 		_position=Vertex(1, -1, 0),
+	# 		_face=Vertex(1, 0, 0),
+	# 		_direction=None,
+	# 		_shape=Cube(Vertex(0, 0, 0), 0.5, COLORS['blue'])
+	# 		)
+	# 	)
+	
 
 
 	clock = pygame.time.Clock()
@@ -85,14 +124,26 @@ def main():
 		# glRotatef(.5, 1, 1, 1)
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 
-		SHAPES[0].draw(True, False)
-		for shape in SHAPES[1:]:
-			print(f'POS: {shape.position.V}\nDIR: {shape.direction}')
-			alert(shape.vertices[0].V)
-			shape.translate(shape.direction)
-			shape.rotate(radians(1), 'Ro_y')
-			shape.collide()
+		for shape in SHAPES_DEBUG:
 			shape.draw(True, False)
+
+		for shape in SHAPES:
+			# print(f'POS: {shape.position.V}\nDIR: {shape.direction}')
+			# alert(shape.vertices[0].V)
+			# shape.translate(shape.direction)
+			# shape.rotate(radians(1), 'Ro_y')
+			# shape.collide()
+
+			print(shape.face.length(), shape.face.V)
+			alert(shape.position)
+			error(shape.shape.position)
+			for vertex in shape.shape.vertices:
+				print(vertex)
+			print()
+
+			shape.draw(True, True)
+			shape.rotate_object(radians(1), 'Ro_y')
+			
 			
 		# SHAPES[1].rotate(-pi/4, 'Ro_y')
 		# SHAPES[1].rotate(radians(1), 'Ro_y')
@@ -105,6 +156,7 @@ def main():
 		pygame.display.set_caption(f'{int(clock.get_fps())} [{FPS_COUNT}]')
 		pygame.display.flip()
 		# pygame.time.wait(30)
+		# sleep(2)
 
 if __name__ == '__main__':
 	main()

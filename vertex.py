@@ -10,6 +10,9 @@ class Vertex:
 
 	def set_tuple(self) -> tuple[float, float, float]:
 		return (self.x, self.y, self.z)
+	
+	def length(self) -> float:
+		return  (self.x ** 2 + self.y ** 2 + self.z ** 2) ** (1 / 2)
 
 	def draw(self) -> None:
 		glBegin(GL_POINTS)
@@ -44,3 +47,11 @@ class Vertex:
 
 	def __sub__(self, _v):
 		return Vertex(self.x - _v.x, self.y - _v.y, self.z - _v.z)
+	
+	def __repr__(self) -> str:
+		return f'({self.x}, {self.y}, {self.z})'
+	
+if __name__ == '__main__':
+	v = Vertex(-0.25, -0.25, -0.25)
+	v.rotate(Vertex(0,0,0), radians(1), 'Ro_y')
+	print(v)

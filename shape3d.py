@@ -10,25 +10,33 @@ class Shape3D:
 		self.direction : list[int] = [uniform(*UNIFORM_DIRECTION_AREA), uniform(*UNIFORM_DIRECTION_AREA), uniform(*UNIFORM_DIRECTION_AREA)] if not _direction else _direction
 		# self.direction : list[float] = [0, 0, 0]
 
-	def draw(self, _draw_edges : bool = False, _draw_vertices : bool = False) -> None:
+	def draw(self, _object_position : Vertex, _draw_edges : bool = False, _draw_vertices : bool = False) -> None:
 		for surface in self.surfaces:
 			if _draw_edges:
 				for i in range(len(surface.vertices) - 1):
 					glBegin(GL_LINES)
-					glColor3f(0,0,0)
-					glVertex3f(surface.vertices[i].x, surface.vertices[i].y, surface.vertices[i].z)
-					glVertex3f(surface.vertices[i + 1].x, surface.vertices[i + 1].y, surface.vertices[i + 1].z)
+					glColor3f(*COLORS['black'])
+					glVertex3f(
+						_object_position.x + surface.vertices[i].x,
+						_object_position.y + surface.vertices[i].y,
+						_object_position.z + surface.vertices[i].z
+					)
+					glVertex3f(
+						_object_position.x + surface.vertices[i + 1].x,
+						_object_position.y + surface.vertices[i + 1].y,
+						_object_position.z + surface.vertices[i + 1].z
+					)
 					glEnd()
-			surface.draw(_draw_vertices)
+			surface.draw(_object_position, _draw_vertices)
 
 	def translate(self, _vector : list[float]) -> None:
 		for surface in self.surfaces:
 			surface.translate(_vector)
 		self.position.translate(_vector)
 
-	def rotate(self, _angle : float, _axis : str) -> None:
+	def rotate(self, _object_position : Vertex, _angle : float, _axis : str) -> None:
 		for surface in self.surfaces:
-			surface.rotate(_angle, _axis)
+			surface.rotate(_object_position, _angle, _axis)
 	
 	def rotate_any(self, _yaw : float, _pitch : float, _roll : float) -> None:
 		for surface in self.surfaces:

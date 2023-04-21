@@ -8,11 +8,14 @@ class Shape2D:
 		self.color = _color
 		self.render_mode = _render_mode
 
-	def draw(self, _true, _draw_vertices : bool = False) -> None:
+	def draw(self, _object_position : Vertex, _true, _draw_vertices : bool = False) -> None:
 		glBegin(self.render_mode)
 		glColor3f(*self.color)
 		for vertex in self.vertices:
-			glVertex3f(vertex.x, vertex.y, vertex.z)
+			glVertex3f(
+				_object_position.x + vertex.x,
+				_object_position.y + vertex.y,
+				_object_position.z + vertex.z)
 			if _draw_vertices:
 				vertex.draw()
 		glEnd()
@@ -22,9 +25,9 @@ class Shape2D:
 			vertex.translate(_vector)
 		self.position.translate(_vector)
 
-	def rotate(self, _angle : float, _axis : str) -> None:
+	def rotate(self, _object_position : Vertex, _angle : float, _axis : str) -> None:
 		for vertex in self.vertices:
-			vertex.rotate(self.position, _angle, _axis)
+			vertex.rotate(_object_position, _angle, _axis)
 
 	def rotate_any(self, _yaw : float, _pitch : float, _roll : float) -> None:
 		for vertex in self.vertices:
