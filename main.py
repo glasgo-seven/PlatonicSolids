@@ -54,12 +54,16 @@ def main():
 
 	SHAPES.append(
 		Object(
-			_position=Vertex(-1, 1, 0),
-			_face=Vertex(1, 0, 0),
+			_position=Vertex(-.5, 0, 0),
+			_face=Vertex(0, 1, 0),
 			_direction=None,
 			_shape=Cube(Vertex(0, 0, 0), 0.5, COLORS['red'])
 			)
 		)
+
+	# SHAPES.append(Cube(Vertex(-1, 0, 0), 1, COLORS['red']))
+	# SHAPES.append(Square(Vertex(1, 0, 0), 1, COLORS['green']))
+	
 	# SHAPES.append(
 	# 	Object(
 	# 		_position=Vertex(0, 0, 0),
@@ -137,14 +141,15 @@ def main():
 			print(shape.face.length(), shape.face.V)
 			alert(shape.position)
 			error(shape.shape.position)
-			for vertex in shape.shape.vertices:
-				print(vertex)
+			# for vertex in shape.shape.vertices:
+			# 	print(vertex)
 			print()
 
 			shape.draw(True, True)
-			shape.rotate_object(radians(1), 'Ro_y')
+			shape.rotate_object(radians(1), 'Ro_z')
 			
-			
+
+
 		# SHAPES[1].rotate(-pi/4, 'Ro_y')
 		# SHAPES[1].rotate(radians(1), 'Ro_y')
 		# SHAPES[2].rotate(radians(1), 'Ro_x')
