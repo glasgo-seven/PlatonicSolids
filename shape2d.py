@@ -23,12 +23,11 @@ class Shape2D:
 	def translate(self, _vector : list[float]) -> None:
 		for vertex in self.vertices:
 			vertex.translate(_vector)
-		self.position.translate(_vector)
 
 	def rotate(self, _object_position : Vertex, _angle : float, _axis : str) -> None:
 		for vertex in self.vertices:
 			vertex.rotate(_object_position, _angle, _axis)
 
-	def rotate_any(self, _yaw : float, _pitch : float, _roll : float) -> None:
+	def rotate_any(self, _object_position : Vertex, _yaw : float, _pitch : float, _roll : float) -> None:
 		for vertex in self.vertices:
-			vertex.rotate_any(self.position, _yaw, _pitch, _roll)
+			vertex.rotate_any(_object_position, _yaw, _pitch, _roll)

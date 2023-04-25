@@ -6,7 +6,7 @@ class Shape3D:
 		self.position : Vertex = _position
 		self.vertices : list[Vertex] = _vertices
 		self.surfaces : list[Shape2D] = _surfaces
-		self.color = _color
+		self.color: tuple[float] = _color
 		self.direction : list[int] = [uniform(*UNIFORM_DIRECTION_AREA), uniform(*UNIFORM_DIRECTION_AREA), uniform(*UNIFORM_DIRECTION_AREA)] if not _direction else _direction
 		# self.direction : list[float] = [0, 0, 0]
 
@@ -30,28 +30,22 @@ class Shape3D:
 			surface.draw(_object_position, _draw_vertices)
 
 	def translate(self, _vector : list[float]) -> None:
-		for surface in self.surfaces:
-			surface.translate(_vector)
+		# for surface in self.surfaces:
+		# 	surface.translate(_vector)
+		for vertex in self.vertices:
+			vertex.translate(_vector)
 		self.position.translate(_vector)
 
 	def rotate(self, _object_position : Vertex, _angle : float, _axis : str) -> None:
-		for surface in self.surfaces:
-			surface.rotate(_object_position, _angle, _axis)
-	
-	def rotate_any(self, _yaw : float, _pitch : float, _roll : float) -> None:
-		for surface in self.surfaces:
-			surface.rotate_any(_yaw, _pitch, _roll)
-
-	def collide(self):
-		collision = [1, 1, 1]
-		if self.position.x >= 8 or self.position.x <= -8:
-			collision[0] = -1
-		if self.position.y >= 8 or self.position.y <= -8:
-			collision[1] = -1
-		if self.position.z >= 8 or self.position.z <= -8:
-			collision[2] = -1
+		# for surface in self.surfaces:
+		# 	surface.rotate(_object_position, _angle, _axis)
+		for vertex in self.vertices:
+			vertex.rotate(_object_position, _angle, _axis)
+		self.position.rotate(_object_position, _angle, _axis)
 		
-		self.direction = [
-			self.direction[0] * collision[0],
-			self.direction[1] * collision[1],
-			self.direction[2] * collision[2]]
+	
+	def rotate_any(self, _object_position : Vertex, _yaw : float, _pitch : float, _roll : float) -> None:
+		for vertex in self.vertices:
+			vertex.rotate_any(_object_position, _yaw, _pitch, _roll)
+		self.position.rotate_any(_object_position, _yaw, _pitch, _roll)
+

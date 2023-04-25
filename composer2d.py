@@ -92,6 +92,157 @@ def Axises():
 	return Shape2D(Vertex(0, 0, 0), VERTICES, COLORS['green'], GL_LINES)
 
 
+def Net(_size : int = 4):
+	len = _size * 2
+	VERTICES = []
+	for z in range(-_size, _size+1):
+		for a in range(-_size, _size+1):
+			VERTICES.append(Vertex(a, -_size, z))
+			VERTICES.append(Vertex(a, +_size, z))
+
+			VERTICES.append(Vertex(-_size, a, z))
+			VERTICES.append(Vertex(+_size, a, z))
+
+	for y in range(-_size, _size+1):
+		for x in range(-_size, _size+1):
+			VERTICES.append(Vertex(x, y, -_size))
+			VERTICES.append(Vertex(x, y, +_size))
+
+	return Shape2D(Vertex(0, 0, 0), VERTICES, COLORS['g_cage'], GL_LINES)
+
+
+def Cage(_size : int = 4):
+	VERTICES = [
+		Vertex(
+			-_size,
+			-_size,
+			-_size,
+		),
+		Vertex(
+			+_size,
+			-_size,
+			-_size,
+		),
+		Vertex(
+			-_size,
+			-_size,
+			-_size,
+		),
+		Vertex(
+			-_size,
+			+_size,
+			-_size,
+		),
+		Vertex(
+			-_size,
+			-_size,
+			-_size,
+		),
+		Vertex(
+			-_size,
+			-_size,
+			+_size,
+		),
+
+		Vertex(
+			-_size,
+			+_size,
+			-_size,
+		),
+		Vertex(
+			-_size,
+			+_size,
+			+_size,
+		),
+		Vertex(
+			-_size,
+			+_size,
+			-_size,
+		),
+		Vertex(
+			+_size,
+			+_size,
+			-_size,
+		),
+
+		Vertex(
+			+_size,
+			+_size,
+			+_size,
+		),
+		Vertex(
+			-_size,
+			+_size,
+			+_size,
+		),
+		Vertex(
+			+_size,
+			+_size,
+			+_size,
+		),
+		Vertex(
+			+_size,
+			-_size,
+			+_size,
+		),
+		Vertex(
+			+_size,
+			+_size,
+			+_size,
+		),
+		Vertex(
+			+_size,
+			+_size,
+			-_size,
+		),
+
+		Vertex(
+			+_size,
+			-_size,
+			+_size,
+		),
+		Vertex(
+			-_size,
+			-_size,
+			+_size,
+		),
+		Vertex(
+			+_size,
+			-_size,
+			+_size,
+		),
+		Vertex(
+			+_size,
+			-_size,
+			-_size,
+		),
+
+		Vertex(
+			-_size,
+			-_size,
+			+_size,
+		),
+		Vertex(
+			-_size,
+			+_size,
+			+_size,
+		),
+		Vertex(
+			+_size,
+			-_size,
+			-_size,
+		),
+		Vertex(
+			+_size,
+			+_size,
+			-_size,
+		),
+		
+	]
+
+	return Shape2D(Vertex(0, 0, 0), VERTICES, COLORS['g_cage'], GL_LINES)
+
+
 def Square(_position : Vertex = Vertex(0, 0, 0), _edge : float = 1, _color : tuple[float] = None, _rotation : tuple[float, str] = None):
 	half_edge = _edge / 2
 	VERTICES = [

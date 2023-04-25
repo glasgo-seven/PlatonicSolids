@@ -9,12 +9,15 @@ from OpenGL.GLU import *
 
 from console import *
 
-FPS_CAP = 10
+DEFAULT_RESOLUTION = (800, 800)
+FPS_CAP = 100
 FPS_COUNT = 0
-CAM_POSITION = (0, 0, -4)
+CAM_POSITION = (0, 0, -14)
 LIGHT_POSITION = -CAM_POSITION[2]
-UNIFORM_DIRECTION_CAP = 0.05
+
+UNIFORM_DIRECTION_CAP = 0.1
 UNIFORM_DIRECTION_AREA = (-UNIFORM_DIRECTION_CAP, UNIFORM_DIRECTION_CAP)
+BORDER_COLLITION_CAP = 4.0
 
 COLORS = {
 	'white'		:	(1, 1, 1),
@@ -24,6 +27,7 @@ COLORS = {
 
 	'red'		:	(1, 0, 0),
 	'green'		:	(0, 1, 0),
+	'g_cage'	:	(0, 1, 0),
 	'blue'		:	(0, 0, 1),
 		
 	'magenta'	:	(1, 0, 1),

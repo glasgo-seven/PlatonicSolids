@@ -97,6 +97,48 @@ def Cube(_position : Vertex = Vertex(0, 0, 0), _edge : float = 1, _color : tuple
 	])
 
 
+def Cube_f(_position : Vertex = Vertex(0, 0, 0), _unit : float = 1, _color : tuple[float] = None):
+	_edge = _unit * 2 / (3 ** (1 / 2))
+	half_edge = _edge / 2
+	'''
+			H			G
+		E			F
+
+			D			C
+		A			B
+	'''
+	V = {
+		'A'	:
+			lambda _position , _unit :
+				Vertex(
+					_position.x - _unit / 2,
+					_position.y - _unit / 2,
+					_position.z - _unit / 2,
+				),
+		'B'	:
+			lambda _position , _unit :
+				Vertex(
+					_position.x +_unit / 2,
+					_position.y - _unit / 2,
+					_position.z - _unit / 2,
+				),
+		'C'	:
+			lambda _position , _unit :
+				Vertex(
+					_position.x + _unit / 2,
+					_position.y - _unit / 2,
+					_position.z + _unit / 2,
+				),
+		'D'	:
+			lambda _position , _unit :
+				Vertex(
+					_position.x - _unit / 2,
+					_position.y - _unit / 2,
+					_position.z + _unit / 2,
+				),
+	}
+	return 0
+
 def Tetrahedron(_position : Vertex = Vertex(0, 0, 0), _edge : float = 1, _color : tuple[float] = None):
 	half_edge = _edge / 2
 	y_base = _edge / 4 * ((2 / 3) ** (1 / 2))
