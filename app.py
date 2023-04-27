@@ -3,64 +3,70 @@ from utils import *
 from object import Vertex, Shape2D, Shape3D, Object
 
 class App:
+	"""
+	Main class of the project. Initilising window, lights, manages objects and draw them.
+	"""
 	def __init__(self, _resolution : tuple[int, int] = DEFAULT_RESOLUTION) -> None:
 		pygame.init()
+		pygame.display.set_caption('Plato Solids')
+		pygame.display.set_icon(pygame.image.load('./icosahedron.png'))
 		self.display = _resolution
-		pygame.display.set_mode(self.display, DOUBLEBUF | OPENGL)
+		self.window = pygame.display.set_mode(self.display, DOUBLEBUF | OPENGL)
+		# window.fill((24, 24, 48))
+		# window.fill((255, 143, 143))
 		gluPerspective(45, (self.display[0] / self.display[1]), 0.1, 50.0)
 		glTranslatef(*CAM_POSITION)
 		# glRotatef(225, 0, 1, 0)
-	
-		glEnable(GL_DEPTH_TEST)
-		glDepthFunc(GL_LESS)
 
 		glEnable(GL_LIGHTING)
 		glEnable(GL_LIGHT0)
 		glEnable(GL_COLOR_MATERIAL)
-		glLightfv(GL_LIGHT0, GL_POSITION, (0, 0, LIGHT_POSITION, 1))
+		glLightfv(GL_LIGHT0, GL_POSITION, LIGHT_POSITION)
+		glLightfv(GL_LIGHT0, GL_DIFFUSE, LIGHT_DIFFUSION)
+		# glLightfv(GL_LIGHT0, GL_AMBIENT, LIGHT_DIFFUSION)
+
+		glEnable(GL_DEPTH_TEST)
+		# glDepthFunc(GL_LESS)
 
 		self.SHAPES_DEBUG : list[Object] = list()
 		self.SHAPES : list[Object] = list()
 
 	def add_debug_object(self, _object : Object) -> None:
+		"""
+		Adds new objects, that are used as debug .
+		"""
 		self.SHAPES_DEBUG.append(_object)
 
 	def add_object(self, _object : Object) -> None:
+		"""
+		Adds new objects, that will be drawn.
+		"""
 		self.SHAPES.append(_object)
 		print(_object)
 
 	def draw_objects(self, _debug):
+		"""
+		It draws all the objects you added .
+		"""
+
 		if _debug:
 			for shape in self.SHAPES_DEBUG:
 				shape.draw(True, False)
 
 		for shape in self.SHAPES:
-			# print(f'POS: {shape.position.V}\nDIR: {shape.direction}')
-			# alert(shape.vertices[0].V)
-			# shape.translate(shape.direction)
-			# shape.rotate(radians(1), 'Ro_y')
-			# shape.collide()
-
-			# print(shape.face.length(), shape.face.V)
-			# alert(shape.position)
-			# error(shape.shape.position)
-			# for vertex in shape.shape.vertices:
-			# 	print(vertex)
 			print()
 
 			shape.draw(True, True)
-			# shape.rotate_object(radians(1), 'Ro_z')
-			# shape.rotate_shape(radians(1), 'Ro_y')
-			# if _debug:
 			shape.translate()
 			shape.rotate()
 			shape.collide()
 
 			print(shape)
-			
-
 
 	def run(self, _debug : bool = False):
+		"""
+		Runs project. You can rotate cam Up/Down and Left/Right.
+		"""
 		clock = pygame.time.Clock()
 		is_over = False
 
@@ -72,7 +78,7 @@ class App:
 			dZ = 0
 			angle = 0
 			for event in pygame.event.get():
-				if event.type == pygame.QUIT:
+				if event.type == pygame.QUIT or event.type == pygame.K_ESCAPE:
 					is_over = True
 					pygame.quit()
 					quit()
@@ -105,11 +111,9 @@ class App:
 			FPS_COUNT += 1
 
 			self.draw_objects(_debug)
-			# if _debug:
-			# 	is_over = True
 
 			clock.tick(FPS_CAP)
-			pygame.display.set_caption(f'{int(clock.get_fps())} [{FPS_COUNT}]')
+			# pygame.display.set_caption(f'{int(clock.get_fps())} [{FPS_COUNT}]')
 			pygame.display.flip()
 
 			# pygame.time.wait(30)

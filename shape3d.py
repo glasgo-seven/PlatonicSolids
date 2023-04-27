@@ -10,12 +10,19 @@ class Shape3D:
 		self.direction : list[int] = [uniform(*UNIFORM_DIRECTION_AREA), uniform(*UNIFORM_DIRECTION_AREA), uniform(*UNIFORM_DIRECTION_AREA)] if not _direction else _direction
 		# self.direction : list[float] = [0, 0, 0]
 
+	def darken_color(self, _color, _delta = 0.25):
+		return (_color[0] - _delta, _color[1] - _delta, _color[2] - _delta)
+
+
 	def draw(self, _object_position : Vertex, _draw_edges : bool = False, _draw_vertices : bool = False) -> None:
 		for surface in self.surfaces:
 			if _draw_edges:
 				for i in range(len(surface.vertices) - 1):
+					glLineWidth(2)
 					glBegin(GL_LINES)
-					glColor3f(*COLORS['black'])
+					# glColor3f(*COLORS['yellow_ce'])
+					# print(surface.color)
+					glColor3f(*self.darken_color(surface.color))
 					glVertex3f(
 						_object_position.x + surface.vertices[i].x,
 						_object_position.y + surface.vertices[i].y,
@@ -27,6 +34,7 @@ class Shape3D:
 						_object_position.z + surface.vertices[i + 1].z
 					)
 					glEnd()
+					glLineWidth(1)
 			surface.draw(_object_position, _draw_vertices)
 
 	def translate(self, _vector : list[float]) -> None:

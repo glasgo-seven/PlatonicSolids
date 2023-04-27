@@ -2,6 +2,9 @@ from utils import *
 from shape3d import Vertex, Shape2D, Shape3D
 
 def Cube(_position : Vertex = Vertex(0, 0, 0), _edge : float = 1, _color : tuple[float] = None):
+	"""
+	Initialize 3D Cube object .
+	"""
 	half_edge = _edge / 2
 	'''
 			3			2
@@ -97,49 +100,10 @@ def Cube(_position : Vertex = Vertex(0, 0, 0), _edge : float = 1, _color : tuple
 	])
 
 
-def Cube_f(_position : Vertex = Vertex(0, 0, 0), _unit : float = 1, _color : tuple[float] = None):
-	_edge = _unit * 2 / (3 ** (1 / 2))
-	half_edge = _edge / 2
-	'''
-			H			G
-		E			F
-
-			D			C
-		A			B
-	'''
-	V = {
-		'A'	:
-			lambda _position , _unit :
-				Vertex(
-					_position.x - _unit / 2,
-					_position.y - _unit / 2,
-					_position.z - _unit / 2,
-				),
-		'B'	:
-			lambda _position , _unit :
-				Vertex(
-					_position.x +_unit / 2,
-					_position.y - _unit / 2,
-					_position.z - _unit / 2,
-				),
-		'C'	:
-			lambda _position , _unit :
-				Vertex(
-					_position.x + _unit / 2,
-					_position.y - _unit / 2,
-					_position.z + _unit / 2,
-				),
-		'D'	:
-			lambda _position , _unit :
-				Vertex(
-					_position.x - _unit / 2,
-					_position.y - _unit / 2,
-					_position.z + _unit / 2,
-				),
-	}
-	return 0
-
 def Tetrahedron(_position : Vertex = Vertex(0, 0, 0), _edge : float = 1, _color : tuple[float] = None):
+	"""
+	Initialize 3D Tetrahedron object .
+	"""
 	half_edge = _edge / 2
 	y_base = _edge / 4 * ((2 / 3) ** (1 / 2))
 	z_diff = _edge / (2 * (3 ** (1 / 2)))
@@ -198,6 +162,9 @@ def Tetrahedron(_position : Vertex = Vertex(0, 0, 0), _edge : float = 1, _color 
 
 
 def Octahedron(_position : Vertex = Vertex(0, 0, 0), _edge : float = 1, _color : tuple[float] = None):
+	"""
+	Initialize 3D Octahedron object .
+	"""
 	half_edge = _edge / 2
 	height = _edge * ((1 / 2) ** (1 / 2))
 	'''
@@ -290,6 +257,9 @@ def Octahedron(_position : Vertex = Vertex(0, 0, 0), _edge : float = 1, _color :
 
 
 def Icosahedron(_position : Vertex = Vertex(0, 0, 0), _edge : float = 1, _color : tuple[float] = None):
+	"""
+	Initialize 3D Icosahedron object .
+	"""
 	fi = pi * 2 / 5
 	r = _edge / (2 * sin(fi / 2))
 	y_top = _edge / 2 * (3 - 1 / sin(fi / 2)) ** (1 / 2)
@@ -447,6 +417,9 @@ def Icosahedron(_position : Vertex = Vertex(0, 0, 0), _edge : float = 1, _color 
 
 
 def Dodecahedron(_position : Vertex = Vertex(0, 0, 0), _edge : float = 1, _color : tuple[float] = None):
+	"""
+	Initialize 3D Dodecahedron object .
+	"""
 	fi = pi * 2 / 5
 	r = _edge / (2 * sin(fi / 2))
 	circumradius = (3 ** (1 / 2)) * (1 + (5 ** (1 / 2))) * _edge / 4

@@ -69,9 +69,9 @@ class Object:
 		glPointSize(1)
 
 	def draw(self, _draw_edges : bool = False, _draw_vertices : bool = False) -> None:
-		self.draw_vector(self.face)
+		# self.draw_vector(self.face)
 		# self.draw_y_axis()
-		self.draw_center()
+		# self.draw_center()
 		
 		self.shape.draw(self.position, _draw_edges, _draw_vertices)
 

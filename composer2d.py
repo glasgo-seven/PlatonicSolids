@@ -2,6 +2,9 @@ from utils import *
 from shape2d import Vertex, Shape2D
 
 def Line(_position : Vertex = Vertex(0, 0, 0), _edge : float = 1, _color : tuple[float] = None, _rotation : tuple[float, str] = None):
+	"""
+	Initialize 2D Line object .
+	"""
 	half_edge = _edge / 2
 	VERTICES = [
 		Vertex(
@@ -20,6 +23,9 @@ def Line(_position : Vertex = Vertex(0, 0, 0), _edge : float = 1, _color : tuple
 
 
 def Axises():
+	"""
+	Initialize 2D Axises object .
+	"""
 	half_edge = 4
 	VERTICES = [
 		Vertex(
@@ -93,6 +99,9 @@ def Axises():
 
 
 def Net(_size : int = 4):
+	"""
+	Initialize 2D Net (every 1 unit = line) object .
+	"""
 	len = _size * 2
 	VERTICES = []
 	for z in range(-_size, _size+1):
@@ -112,6 +121,9 @@ def Net(_size : int = 4):
 
 
 def Cage(_size : int = 4):
+	"""
+	Initialize 2D Cage (Borders) object .
+	"""
 	VERTICES = [
 		Vertex(
 			-_size,
@@ -244,6 +256,9 @@ def Cage(_size : int = 4):
 
 
 def Square(_position : Vertex = Vertex(0, 0, 0), _edge : float = 1, _color : tuple[float] = None, _rotation : tuple[float, str] = None):
+	"""
+	Initialize 2D Square object .
+	"""
 	half_edge = _edge / 2
 	VERTICES = [
 		Vertex(
@@ -274,6 +289,9 @@ def Square(_position : Vertex = Vertex(0, 0, 0), _edge : float = 1, _color : tup
 
 
 def Cirlce(_position : Vertex = Vertex(0, 0, 0), _radius : float = 1, _n_sides : int = 100, _color : tuple[float] = None):
+	"""
+	Initialize 2D Cirlce object .
+	"""
 	angle = 2 * pi / _n_sides
 	VERTICES = []
 	for i in range(_n_sides):

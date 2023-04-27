@@ -44,17 +44,12 @@ if __name__ == '__main__':
 		Object(
 			_position=Vertex(2, 0, 0),
 			_face=Vertex(0, 1, 0),
-			_shape=Dodecahedron(Vertex(0, 0, 0), .7, COLORS['magenta'])
+			_shape=Dodecahedron(Vertex(0, 0, 0), .65, COLORS['magenta'])
 			)
 		)
 	
-	
-	# app.add_object(Cube(Vertex(0, 0, 0), 0.5, COLORS['red']))
-	
-	# app.SHAPES[0].add_translation([0.02, -0.04, 0.01])
 	for shape in app.SHAPES:
 		shape.push()
 		shape.spin()
-	# app.SHAPES[0].add_rotation(pi/10, 'Ro_y')
 	
 	app.run(_debug=True)
