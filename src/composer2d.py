@@ -302,7 +302,6 @@ def Cirlce(_position : Vertex = Vertex(0, 0, 0), _radius : float = 1, _n_sides :
 		)
 		vertex.rotate(_position, i * angle, 'Ro_z')
 		VERTICES.append(vertex)
-	# print(VERTICES)
 	return Shape2D(_position, VERTICES, _color)
 
 

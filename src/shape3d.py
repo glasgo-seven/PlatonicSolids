@@ -8,11 +8,9 @@ class Shape3D:
 		self.surfaces : list[Shape2D] = _surfaces
 		self.color: tuple[float] = _color
 		self.direction : list[int] = [uniform(*UNIFORM_DIRECTION_AREA), uniform(*UNIFORM_DIRECTION_AREA), uniform(*UNIFORM_DIRECTION_AREA)] if not _direction else _direction
-		# self.direction : list[float] = [0, 0, 0]
 
-	def darken_color(self, _color, _delta = 0.25):
+	def darken_color(self, _color, _delta = 0.2):
 		return (_color[0] - _delta, _color[1] - _delta, _color[2] - _delta)
-
 
 	def draw(self, _object_position : Vertex, _draw_edges : bool = False, _draw_vertices : bool = False) -> None:
 		for surface in self.surfaces:
@@ -20,8 +18,6 @@ class Shape3D:
 				for i in range(len(surface.vertices) - 1):
 					glLineWidth(2)
 					glBegin(GL_LINES)
-					# glColor3f(*COLORS['yellow_ce'])
-					# print(surface.color)
 					glColor3f(*self.darken_color(surface.color))
 					glVertex3f(
 						_object_position.x + surface.vertices[i].x,
@@ -38,15 +34,11 @@ class Shape3D:
 			surface.draw(_object_position, _draw_vertices)
 
 	def translate(self, _vector : list[float]) -> None:
-		# for surface in self.surfaces:
-		# 	surface.translate(_vector)
 		for vertex in self.vertices:
 			vertex.translate(_vector)
 		self.position.translate(_vector)
 
 	def rotate(self, _object_position : Vertex, _angle : float, _axis : str) -> None:
-		# for surface in self.surfaces:
-		# 	surface.rotate(_object_position, _angle, _axis)
 		for vertex in self.vertices:
 			vertex.rotate(_object_position, _angle, _axis)
 		self.position.rotate(_object_position, _angle, _axis)
@@ -56,4 +48,3 @@ class Shape3D:
 		for vertex in self.vertices:
 			vertex.rotate_any(_object_position, _yaw, _pitch, _roll)
 		self.position.rotate_any(_object_position, _yaw, _pitch, _roll)
-

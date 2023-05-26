@@ -37,12 +37,6 @@ class Matrix:
 			for line_a in self.M:
 				row = []
 				for line_b in _mul_t.M:
-					# def mul_vectors(v1, v2):
-					# 	# return v1[0] * v2[0] + v1[1] * v2[1] + v1[2] * v2[2]
-					# 	s = sum([v1[i] * v2[i] for i in range(len(line_a))])
-					# 	print(v1, v2, s)
-					# 	return s
-					# row.append(mul_vectors(line_a, line_b))
 					row.append(self.mul(line_a, line_b))
 				content.append(row)
 			return Matrix(content)
@@ -112,40 +106,5 @@ def Ro_Any_Matrix(_yaw : float, _pitch : float, _roll : float) -> Matrix:
 	return M['Ro_z'](_yaw) * M['Ro_y'](_pitch) * M['Ro_x'](_roll)
 
 if __name__ == '__main__':
-	# matrix = [
-	# 	[1, 1],
-	# 	[2, 4],
-	# ]
-
-	# vector = (0, 2)
-	# vector_2 = (1, 4)
-
-	# M = Matrix(matrix)
-	# V = Matrix(vector, _is_vector=True)
-	# V2 = Matrix(vector_2, _is_vector=True)
-
-	# print(M)
-	# print(V)
-	# print(V2)
-	# print()
-	# print(M * V)
-	# print(V * V2)
-
-	# matrix_a = [
-	# 	[1, 1],
-	# 	[2, 2],
-	# 	[3, 3],
-	# ]
-	# matrix_b = [
-	# 	[1, 2, 3],
-	# 	[1, 2, 3],
-	# ]
-
-	# Ma = Matrix(matrix_a)
-	# Mb = Matrix(matrix_b)
-	# print(Ma.T())
-	# print(Ma * Mb)
-	# print(Mb * Ma)
-
 	print(Ro_Any_Matrix(1, 1, 1))
 
