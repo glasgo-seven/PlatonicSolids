@@ -86,8 +86,7 @@ class App:
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT or event.type == pygame.K_ESCAPE:
 					is_over = True
-					pygame.quit()
-					quit()
+					break
 				if event.type == pygame.KEYDOWN:
 					if event.key == pygame.K_UP:
 						dX += 1
@@ -133,6 +132,9 @@ class App:
 
 			# pygame.time.wait(30)
 			# sleep(2)
+		# pygame.quit()
+		# exit(0)
+	
 
 if __name__ == '__main__':
 	pass

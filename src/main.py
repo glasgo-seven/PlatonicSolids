@@ -1,3 +1,5 @@
+from sys import exit
+
 from utils import *
 
 from composer2d import Axises, Cage, Net, Square
